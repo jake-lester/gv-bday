@@ -56,12 +56,21 @@ function checkBirthdayStatus() {
     }
 }
 
-// DOM elements
-const daysElement = document.getElementById('days');
-const hoursElement = document.getElementById('hours');
-const minutesElement = document.getElementById('minutes');
-const secondsElement = document.getElementById('seconds');
-const excitementFill = document.getElementById('excitement-fill');
+// DOM elements - will be initialized when page loads
+let daysElement, hoursElement, minutesElement, secondsElement, excitementFill;
+let countdownSection, birthdaySection, celebrateBtn;
+
+// Initialize DOM elements
+function initDOMElements() {
+    daysElement = document.getElementById('days');
+    hoursElement = document.getElementById('hours');
+    minutesElement = document.getElementById('minutes');
+    secondsElement = document.getElementById('seconds');
+    excitementFill = document.getElementById('excitement-fill');
+    countdownSection = document.getElementById('countdown-section');
+    birthdaySection = document.getElementById('birthday-section');
+    celebrateBtn = document.getElementById('celebrate-btn');
+}
 
 // Sound effects (using Web Audio API for birthday sounds)
 function playBirthdaySound() {
@@ -197,6 +206,16 @@ function createFireworks() {
 
 // Update countdown timer
 function updateCountdown() {
+    // Ensure DOM elements are initialized
+    if (!daysElement) {
+        initDOMElements();
+    }
+    
+    // Return early if elements still don't exist (page not loaded)
+    if (!daysElement || !hoursElement || !minutesElement || !secondsElement) {
+        return;
+    }
+    
     const now = new Date().getTime();
     const distance = targetDate - now;
     
@@ -211,7 +230,9 @@ function updateCountdown() {
         updateNumberWithAnimation(secondsElement, 0);
         
         // Full excitement meter
-        excitementFill.style.width = '100%';
+        if (excitementFill) {
+            excitementFill.style.width = '100%';
+        }
         return;
     }
     
@@ -228,10 +249,12 @@ function updateCountdown() {
     updateNumberWithAnimation(secondsElement, seconds);
     
     // Update excitement meter based on how close we are
-    const totalSeconds = distance / 1000;
-    const oneYear = 365 * 24 * 60 * 60; // seconds in a year
-    const excitement = Math.max(0, Math.min(100, 100 - (totalSeconds / oneYear * 100)));
-    excitementFill.style.width = excitement + '%';
+    if (excitementFill) {
+        const totalSeconds = distance / 1000;
+        const oneYear = 365 * 24 * 60 * 60; // seconds in a year
+        const excitement = Math.max(0, Math.min(100, 100 - (totalSeconds / oneYear * 100)));
+        excitementFill.style.width = excitement + '%';
+    }
     
     // Add special effects when getting close
     if (days === 0 && hours === 0 && minutes === 0 && seconds <= 10) {
@@ -241,6 +264,8 @@ function updateCountdown() {
 
 // Smooth number animation
 function updateNumberWithAnimation(element, newValue) {
+    if (!element) return; // Safety check
+    
     const currentValue = parseInt(element.textContent) || 0;
     const formattedValue = newValue.toString().padStart(2, '0');
     
@@ -249,9 +274,11 @@ function updateNumberWithAnimation(element, newValue) {
         element.style.color = '#ffd93d';
         
         setTimeout(() => {
-            element.textContent = formattedValue;
-            element.style.transform = 'scale(1)';
-            element.style.color = 'white';
+            if (element) { // Double-check element still exists
+                element.textContent = formattedValue;
+                element.style.transform = 'scale(1)';
+                element.style.color = 'white';
+            }
         }, 150);
     }
 }
@@ -666,15 +693,25 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Initialize countdown
-updateCountdown();
-
-// Update every second
-setInterval(updateCountdown, 1000);
+// Countdown initialization is now handled in initCountdownPage()
 
 // Add some interactive elements
 // Initialize countdown page functionality
 function initCountdownPage() {
+    // Initialize DOM elements first
+    initDOMElements();
+    
+    // Start the countdown immediately
+    updateCountdown();
+    
+    // Clear any existing countdown interval
+    if (window.countdownInterval) {
+        clearInterval(window.countdownInterval);
+    }
+    
+    // Start the countdown interval
+    window.countdownInterval = setInterval(updateCountdown, 1000);
+    
     // Add click effects to countdown items
     const countdownItems = document.querySelectorAll('.countdown-item');
     countdownItems.forEach(item => {

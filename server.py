@@ -73,7 +73,7 @@ def run_server(port=8000):
 
     try:
         with socketserver.TCPServer(("", port), CleanURLHandler) as httpd:
-            print(f"🎂 Guy's Birthday Website Server")
+            print(f"🎂 Birthday Website Server")
             print(f"🌐 Serving at http://localhost:{port}")
             print(f"📁 Directory: {os.getcwd()}")
             print(f"\n🔗 Available routes:")
@@ -86,7 +86,7 @@ def run_server(port=8000):
             httpd.serve_forever()
 
     except KeyboardInterrupt:
-        print(f"\n🛑 Server stopped. Thanks for celebrating Guy's birthday! 🎉")
+        print(f"\n🛑 Server stopped. Thanks for celebrating birthday! 🎉")
     except OSError as e:
         if e.errno == 98:  # Address already in use
             print(f"❌ Port {port} is already in use. Try a different port:")
@@ -98,7 +98,7 @@ def run_server(port=8000):
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Guy's Birthday Website Server")
+    parser = argparse.ArgumentParser(description="Birthday Website Server")
     parser.add_argument(
         "--port", type=int, default=8000, help="Port to serve on (default: 8000)"
     )

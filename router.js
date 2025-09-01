@@ -191,35 +191,20 @@ class Router {
     }
     
     cleanup() {
-        // Clean up timers and intervals
+        // Clean up specific intervals
         if (window.memoryGame && window.memoryGame.gameTimer) {
             clearInterval(window.memoryGame.gameTimer);
         }
-        
-        // Clear any existing timeouts
-        const highestTimeoutId = setTimeout(() => {}, 0);
-        for (let i = 0; i < highestTimeoutId; i++) {
-            clearTimeout(i);
+        if (window.countdownInterval) {
+            clearInterval(window.countdownInterval);
         }
-        
-        // Clear any existing intervals
-        const highestIntervalId = setInterval(() => {}, 0);
-        for (let i = 0; i < highestIntervalId; i++) {
-            clearInterval(i);
+        if (window.birthdayStatusInterval) {
+            clearInterval(window.birthdayStatusInterval);
         }
         
         // Remove dynamic particles and effects
         document.querySelectorAll('.particle, .confetti, .firework, .screen-flash, .shockwave').forEach(el => {
             if (el.parentNode) el.parentNode.removeChild(el);
-        });
-        
-        // Remove page-specific event listeners by removing and re-adding elements
-        const elementsWithListeners = document.querySelectorAll('[id]');
-        elementsWithListeners.forEach(el => {
-            const clone = el.cloneNode(true);
-            if (el.parentNode) {
-                el.parentNode.replaceChild(clone, el);
-            }
         });
     }
     

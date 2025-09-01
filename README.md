@@ -1,4 +1,4 @@
-# 🎉 Guy's Birthday Countdown Website
+# 🎉 Birthday Countdown Website
 
 A beautiful, interactive countdown website that reveals a special birthday postcard when September 5th arrives!
 

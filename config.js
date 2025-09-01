@@ -1,10 +1,10 @@
-// Shared configuration for Guy's Birthday Website
+// Shared configuration for Birthday Website
 // This file contains all shared constants and settings
 
 // Birthday target date - change this one location to update across all pages
 const BIRTHDAY_CONFIG = {
-    targetDate: new Date('September 5, 2025 00:00:00').getTime(),
-    birthdayYear: 2025,
+    targetDate: new Date('September 5, 2024 00:00:00').getTime(),
+    birthdayYear: 2024,
     birthdayMonth: 'September',
     birthdayDay: 5
 };

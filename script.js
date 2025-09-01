@@ -1,5 +1,5 @@
-// Birthday countdown for September 5th
-const targetDate = new Date('September 5, 2025 00:00:00').getTime();
+// Import targetDate from config.js (assumes BIRTHDAY_CONFIG is attached to window)
+const targetDate = window.BIRTHDAY_CONFIG.targetDate;
 
 // DOM elements
 const daysElement = document.getElementById('days');
@@ -400,11 +400,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentYear = new Date().getFullYear();
     const targetYear = new Date(targetDate).getFullYear();
     
-    if (currentYear !== targetYear) {
-        // Update the year in the display
-        const dateDisplay = document.querySelector('.date-display p');
-        dateDisplay.textContent = `Until September 5th, ${targetYear}`;
-    }
+    // if (currentYear !== targetYear) {
+    //     // Update the year in the display
+    //     const dateDisplay = document.querySelector('.date-display p');
+    //     dateDisplay.textContent = `Until September 5th, ${targetYear}`;
+    // }
     
     // Initialize the Tech Memory Game
     memoryGame = new TechMemoryGame();

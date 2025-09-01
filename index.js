@@ -19,7 +19,7 @@ function updateBirthdayStatus() {
         if (birthdayStatus) {
             birthdayStatus.innerHTML = `
                 <div class="birthday-arrived">
-                    <h2 class="birthday-title">🎉 It's Guy's Birthday! 🎉</h2>
+                    <h2 class="birthday-title">🎉 It's Birthday! 🎉</h2>
                     <p class="birthday-message">The special day has arrived! Check out the countdown or view the birthday wishes.</p>
                 </div>
             `;
@@ -35,7 +35,7 @@ function updateBirthdayStatus() {
                 <div class="countdown-preview">
                     <h3 style="color: white; margin-bottom: 1rem;">⏰ Countdown Status</h3>
                     <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.2rem; margin-bottom: 1rem;">
-                        <strong>${days} days and ${hours} hours</strong> until Guy's birthday!
+                        <strong>${days} days and ${hours} hours</strong> until birthday!
                     </p>
                     <p style="color: rgba(255, 255, 255, 0.8);">
                         Join the countdown and play the memory game while we wait for the celebration.
