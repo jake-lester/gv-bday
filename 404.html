@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guy's Birthday Website</title>
+    <script>
+        // GitHub Pages SPA routing solution
+        // This redirects all 404s to the appropriate page
+        
+        const routes = {
+            '/countdown': 'countdown.html',
+            '/wishes': 'wishes.html'
+        };
+        
+        const path = window.location.pathname;
+        
+        // Remove any trailing slashes
+        const cleanPath = path.replace(/\/$/, '') || '/';
+        const targetPage = routes[cleanPath];
+        
+        if (targetPage) {
+            // Redirect to the correct HTML file
+            window.location.replace('/' + targetPage);
+        } else if (cleanPath !== '/') {
+            // Redirect to home page for unknown routes
+            window.location.replace('/');
+        }
+    </script>
+</head>
+<body>
+    <div style="text-align: center; padding: 2rem; font-family: Arial, sans-serif;">
+        <h1>🎂 Redirecting to Guy's Birthday Website...</h1>
+        <p>If you're not automatically redirected, <a href="/">click here</a>.</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guy's Birthday Countdown 🎉</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="page-nav">
+        <a href="/" class="nav-link">🏠 Home</a>
+        <a href="/countdown" class="nav-link active">⏰ Countdown</a>
+        <a href="/wishes" class="nav-link" id="wishes-nav">🎂 Wishes</a>
+    </nav>
+
+    <div class="container">
+        <!-- Big Birthday Wishes Button (shown when countdown finished) -->
+        <div class="big-wishes-button" id="big-wishes-button" style="display: none;">
+            <a href="/wishes" class="big-wishes-btn">
+                🎉 Guy's Birthday Has Arrived! Click to See Wishes 🎂
+            </a>
+        </div>
+
+        <!-- Countdown Section -->
+        <div id="countdown-section" class="section active">
+            <div class="content">
+                <h1 class="title">🎂 Guy's Birthday Countdown</h1>
+                
+                <div class="countdown-container">
+                    <div class="countdown-item">
+                        <span id="days" class="countdown-number">00</span>
+                        <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="hours" class="countdown-number">00</span>
+                        <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="minutes" class="countdown-number">00</span>
+                        <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-item">
+                        <span id="seconds" class="countdown-number">00</span>
+                        <span class="countdown-label">Seconds</span>
+                    </div>
+                </div>
+
+                <div class="date-display">
+                    <p>Until September 5th, 2025</p>
+                </div>
+
+                <!-- Birthday Arrived Message (shown after countdown) -->
+                <div class="birthday-arrived" id="birthday-arrived" style="display: none;">
+                    <h2 class="birthday-title">🎉 It's Guy's Birthday! 🎉</h2>
+                    <p class="birthday-message">The wait is over! Click below to see the birthday wishes.</p>
+                    <a href="/wishes" class="birthday-btn">🎂 View Birthday Wishes</a>
+                </div>
+
+                <div class="excitement-meter">
+                    <div class="meter-label">Excitement Level:</div>
+                    <div class="meter-bar">
+                        <div id="excitement-fill" class="meter-fill"></div>
+                    </div>
+                </div>
+
+                <!-- Interactive Tech Minigame -->
+                <div class="minigame-container">
+                    <h3 class="minigame-title">🧠 Tech Memory Match</h3>
+                    <p class="minigame-subtitle">Match the tech pairs while you wait!</p>
+                    
+                    <div class="game-stats">
+                        <div class="stat">
+                            <span class="stat-label">Level:</span>
+                            <span id="current-level">1</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Score:</span>
+                            <span id="game-score">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Moves:</span>
+                            <span id="move-count">0</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Time:</span>
+                            <span id="game-timer">0s</span>
+                        </div>
+                    </div>
+
+                    <div class="game-controls">
+                        <button id="new-game" class="game-btn secondary">New Game</button>
+                        <button id="shuffle-cards" class="game-btn hint">🔄 Shuffle</button>
+                        <button id="peek-cards" class="game-btn primary">👁️ Peek</button>
+                    </div>
+
+                    <div class="memory-game-board" id="game-board">
+                        <!-- Cards will be generated dynamically -->
+                    </div>
+
+                    <div id="game-feedback" class="feedback"></div>
+
+                    <div class="achievement-display">
+                        <div class="achievement-title">🏆 Achievements</div>
+                        <div id="achievements-list" class="achievements">
+                            <div class="achievement locked" data-achievement="first-match">
+                                <span class="achievement-icon">🎯</span>
+                                <span class="achievement-name">First Match</span>
+                            </div>
+                            <div class="achievement locked" data-achievement="speed-master">
+                                <span class="achievement-icon">⚡</span>
+                                <span class="achievement-name">Speed Master</span>
+                            </div>
+                            <div class="achievement locked" data-achievement="memory-genius">
+                                <span class="achievement-icon">🧠</span>
+                                <span class="achievement-name">Memory Genius</span>
+                            </div>
+                            <div class="achievement locked" data-achievement="tech-expert">
+                                <span class="achievement-icon">💻</span>
+                                <span class="achievement-name">Tech Expert</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard">
+                        <h4>🏅 Best Score: <span id="high-score">0</span></h4>
+                        <p class="best-time">⏱️ Best Time: <span id="best-time">--</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="background-animation">
+        <div class="floating-element">🎈</div>
+        <div class="floating-element">🎁</div>
+        <div class="floating-element">⭐</div>
+        <div class="floating-element">🎊</div>
+        <div class="floating-element">🎂</div>
+        <div class="floating-element">🌟</div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="router.js"></script>
+    <script src="countdown.js"></script>
+</body>
+</html>

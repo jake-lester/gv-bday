@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guy Vardi - Homepage</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="landing-page">
+    <!-- Navigation -->
+    <nav class="page-nav">
+        <a href="/" class="nav-link active">🏠 Home</a>
+        <a href="/countdown" class="nav-link">⏰ Countdown</a>
+        <a href="/wishes" class="nav-link" id="wishes-nav-home" style="display: none;">🎂 Wishes</a>
+    </nav>
+
+    <div class="container">
+        <div class="landing-content">
+            <div class="pdf-header">
+                <h1 class="pdf-title">Guy Vardi - A Landing Page to be Updated</h1>
+                <div class="pdf-actions">
+                    <a href="/countdown" class="hero-btn primary">
+                        🎂 Birthday Countdown
+                    </a>
+                    <a href="/wishes" class="hero-btn secondary" id="wishes-btn-home" style="display: none;">
+                        🎉 Birthday Wishes
+                    </a>
+                </div>
+            </div>
+
+            <div class="pdf-container">
+                <embed src="SPI_ExecutiveBio_GuyVardi_R1.pdf" 
+                       type="application/pdf" 
+                       width="100%" 
+                       height="800px"
+                       title="Guy Vardi Executive Biography">
+                
+                <!-- Fallback for browsers that don't support embed -->
+                <div class="pdf-fallback">
+                    <p>Your browser doesn't support embedded PDFs.</p>
+                    <a href="SPI_ExecutiveBio_GuyVardi_R1.pdf" target="_blank" class="hero-btn primary">
+                        📄 View PDF in New Tab
+                    </a>
+                </div>
+            </div>
+
+            <div class="birthday-status" id="birthday-status">
+                <!-- Status will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="background-animation">
+        <div class="floating-element">🎈</div>
+        <div class="floating-element">🎁</div>
+        <div class="floating-element">⭐</div>
+        <div class="floating-element">🎊</div>
+        <div class="floating-element">🎂</div>
+        <div class="floating-element">🌟</div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="router.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
