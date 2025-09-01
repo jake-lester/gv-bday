@@ -3,8 +3,8 @@
 
 // Birthday target date - change this one location to update across all pages
 const BIRTHDAY_CONFIG = {
-    targetDate: new Date('September 5, 2024 00:00:00').getTime(),
-    birthdayYear: 2024,
+    targetDate: new Date('September 5, 2025 00:00:00').getTime(),
+    birthdayYear: 2025,
     birthdayMonth: 'September',
     birthdayDay: 5
 };
