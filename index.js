@@ -10,8 +10,11 @@ function updateBirthdayStatus() {
     const wishesBtnHome = document.getElementById('wishes-btn-home');
     const birthdayStatus = document.getElementById('birthday-status');
     
-    if (isPastBirthday) {
-        // Show wishes navigation and button
+    // Check if page was refreshed (has proper DOM timing)
+    const isRefreshed = window.location.href.includes('?refreshed=true');
+    
+    if (isPastBirthday && isRefreshed) {
+        // Show wishes navigation and button only if past birthday AND refreshed
         if (wishesNavHome) wishesNavHome.style.display = 'block';
         if (wishesBtnHome) wishesBtnHome.style.display = 'inline-block';
         
@@ -25,6 +28,10 @@ function updateBirthdayStatus() {
             `;
         }
     } else {
+        // Hide wishes elements when countdown is active OR not properly refreshed
+        if (wishesNavHome) wishesNavHome.style.display = 'none';
+        if (wishesBtnHome) wishesBtnHome.style.display = 'none';
+        
         // Show countdown status
         const distance = targetDate - now;
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));

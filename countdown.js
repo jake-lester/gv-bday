@@ -30,8 +30,11 @@ function checkBirthdayStatus() {
             return;
         }
         
-        if (isPastBirthday) {
-            // Show wishes navigation button
+        // Check if page was refreshed (has proper DOM timing)
+        const isRefreshed = window.location.href.includes('?refreshed=true');
+        
+        if (isPastBirthday && isRefreshed) {
+            // Show wishes navigation button only if past birthday AND refreshed
             if (wishesNav) {
                 wishesNav.style.display = 'inline-block';
             }
@@ -50,7 +53,7 @@ function checkBirthdayStatus() {
                 wishesBtnHome.style.display = 'inline-block';
             }
         } else {
-            // Hide elements when countdown is active
+            // Hide wishes elements when countdown is active OR not properly refreshed
             if (wishesNav) {
                 wishesNav.style.display = 'none';
             }
@@ -68,7 +71,7 @@ function checkBirthdayStatus() {
             }
         }
         
-        console.log(`Birthday status updated: ${isPastBirthday ? 'Past birthday' : 'Before birthday'}`);
+        console.log(`Birthday status updated: ${isPastBirthday ? 'Past birthday' : 'Before birthday'}, Refreshed: ${isRefreshed}, Wishes buttons: ${isPastBirthday && isRefreshed ? 'Visible' : 'Hidden'}`);
     };
     
     updateStatusElements();
