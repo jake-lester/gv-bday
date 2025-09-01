@@ -19,8 +19,8 @@ function checkRedirect() {
     return true;
 }
 
-// DOM elements
-const celebrateBtn = document.getElementById('celebrate-btn');
+// DOM elements - will be initialized when page loads
+let celebrateBtn;
 
 // Sound effects (using Web Audio API for birthday sounds)
 function playBirthdaySound() {
@@ -257,31 +257,37 @@ function createFireworks() {
 }
 
 // Celebrate button functionality
-celebrateBtn.addEventListener('click', () => {
-    // Trigger the epic explosion sequence
-    explodePostcard();
+function initCelebrateButton() {
+    celebrateBtn = document.getElementById('celebrate-btn');
     
-    // Play enhanced sound effects
-    playBirthdaySound();
-    
-    // Create reduced confetti after explosion
-    setTimeout(() => {
-        createConfetti();
-    }, 800);
-    
-    // Create fireworks during reinflation
-    setTimeout(() => {
-        createFireworks();
-    }, 1800);
-    
-    // Add pulse animation to button
-    celebrateBtn.style.animation = 'buttonCelebrate 0.6s ease-in-out';
-    setTimeout(() => {
-        celebrateBtn.style.animation = 'buttonPulse 2s ease-in-out infinite';
-    }, 600);
-});
+    if (celebrateBtn) {
+        celebrateBtn.addEventListener('click', () => {
+            // Trigger the epic explosion sequence
+            explodePostcard();
+            
+            // Play enhanced sound effects
+            playBirthdaySound();
+            
+            // Create reduced confetti after explosion
+            setTimeout(() => {
+                createConfetti();
+            }, 800);
+            
+            // Create fireworks during reinflation
+            setTimeout(() => {
+                createFireworks();
+            }, 1800);
+            
+            // Add pulse animation to button
+            celebrateBtn.style.animation = 'buttonCelebrate 0.6s ease-in-out';
+            setTimeout(() => {
+                celebrateBtn.style.animation = 'buttonPulse 2s ease-in-out infinite';
+            }, 600);
+        });
+    }
+}
 
-// Add CSS animation for button
+// Add CSS animations for button and explosion effects
 const style = document.createElement('style');
 style.textContent = `
     @keyframes buttonCelebrate {
@@ -289,6 +295,93 @@ style.textContent = `
         25% { transform: scale(1.1) rotate(-5deg); }
         50% { transform: scale(1.2) rotate(5deg); }
         75% { transform: scale(1.1) rotate(-3deg); }
+    }
+    
+    @keyframes buttonPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+    }
+    
+    .exploding {
+        animation: explode 1.5s ease-out forwards;
+    }
+    
+    @keyframes explode {
+        0% { transform: scale(1) rotate(0deg); opacity: 1; }
+        50% { transform: scale(1.2) rotate(5deg); opacity: 0.8; }
+        100% { transform: scale(0.1) rotate(180deg); opacity: 0; }
+    }
+    
+    .hidden {
+        opacity: 0 !important;
+        transform: scale(0.1) !important;
+    }
+    
+    .reinflating {
+        animation: reinflate 2s ease-out forwards;
+    }
+    
+    @keyframes reinflate {
+        0% { transform: scale(0.1) rotate(180deg); opacity: 0; }
+        50% { transform: scale(1.1) rotate(-5deg); opacity: 0.8; }
+        100% { transform: scale(1) rotate(0deg); opacity: 1; }
+    }
+    
+    .screen-flash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+        z-index: 9999;
+        animation: flash 0.5s ease-out;
+        pointer-events: none;
+    }
+    
+    @keyframes flash {
+        0% { opacity: 0; }
+        50% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+    
+    .shockwave {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        border: 3px solid #ffd93d;
+        border-radius: 50%;
+        z-index: 9998;
+        animation: shockwave 1s ease-out;
+        pointer-events: none;
+    }
+    
+    @keyframes shockwave {
+        0% { 
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 1;
+        }
+        100% { 
+            transform: translate(-50%, -50%) scale(20);
+            opacity: 0;
+        }
+    }
+    
+    .particle {
+        position: fixed;
+        font-size: 20px;
+        z-index: 9997;
+        pointer-events: none;
+    }
+    
+    .birthday-emoji {
+        animation: sparkle 0.5s ease-out;
+    }
+    
+    @keyframes sparkle {
+        0% { transform: scale(0) rotate(0deg); }
+        50% { transform: scale(1.2) rotate(180deg); }
+        100% { transform: scale(1) rotate(360deg); }
     }
 `;
 document.head.appendChild(style);
@@ -299,6 +392,9 @@ function initWishesPage() {
     if (!checkRedirect()) {
         return; // Will redirect, so don't continue initialization
     }
+    
+    // Initialize celebrate button functionality
+    initCelebrateButton();
     
     // Add hover effects to birthday decorations
     const decorations = document.querySelectorAll('.balloon, .confetti, .cake');
