@@ -170,6 +170,9 @@ class Router {
         window.dispatchEvent(new CustomEvent('pageChanged', { 
             detail: { targetFile, path: window.location.pathname } 
         }));
+        
+        // HACK: Force refresh on router navigation to fix DOM timing issues
+        this.applyRefreshHackIfNeeded();
     }
     
     updateNavigation() {
@@ -206,6 +209,40 @@ class Router {
         document.querySelectorAll('.particle, .confetti, .firework, .screen-flash, .shockwave').forEach(el => {
             if (el.parentNode) el.parentNode.removeChild(el);
         });
+    }
+    
+    applyRefreshHackIfNeeded() {
+        // Abstract refresh hack for all pages to fix DOM timing issues
+        const currentPath = window.location.pathname;
+        const currentUrl = window.location.href;
+        
+        // Check if this is router navigation (not already refreshed)
+        const isRouterNavigation = !currentUrl.includes('?refreshed=true');
+        const needsRefresh = this.pageNeedsRefreshHack(currentPath);
+        
+        if (isRouterNavigation && needsRefresh) {
+            console.log(`Router navigation to ${currentPath} detected - applying refresh hack`);
+            
+            // Add refresh flag to URL to prevent infinite refresh
+            const separator = currentUrl.includes('?') ? '&' : '?';
+            const newUrl = currentUrl + separator + 'refreshed=true';
+            
+            window.location.replace(newUrl);
+            return true; // Indicate that refresh was triggered
+        }
+        
+        return false; // No refresh needed
+    }
+    
+    pageNeedsRefreshHack(path) {
+        // Define which pages need the refresh hack
+        const pagesNeedingRefresh = [
+            '/',          // Home page (for PDF loading and birthday status)
+            '/countdown', // Countdown page (for timer and memory game)
+            '/wishes'     // Wishes page (for celebrate button)
+        ];
+        
+        return pagesNeedingRefresh.includes(path);
     }
     
     loadPageScript(targetFile) {

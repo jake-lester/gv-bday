@@ -22,6 +22,36 @@ function checkRedirect() {
 // DOM elements - will be initialized when page loads
 let celebrateBtn;
 
+// Global function for inline onclick (router-proof)
+window.handleCelebrateButtonClick = function(button) {
+    console.log('Celebrate button clicked via inline handler!');
+    
+    // Trigger the epic explosion sequence
+    explodePostcard();
+    
+    // Play enhanced sound effects
+    playBirthdaySound();
+    
+    // Create reduced confetti after explosion
+    setTimeout(() => {
+        createConfetti();
+    }, 800);
+    
+    // Create fireworks during reinflation
+    setTimeout(() => {
+        createFireworks();
+    }, 1800);
+    
+    // Add pulse animation to button
+    button.style.animation = 'buttonCelebrate 0.6s ease-in-out';
+    setTimeout(() => {
+        button.style.animation = 'buttonPulse 2s ease-in-out infinite';
+    }, 600);
+};
+
+// Initialize celebrate button immediately when script loads
+initCelebrateButton();
+
 // Sound effects (using Web Audio API for birthday sounds)
 function playBirthdaySound() {
     const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -256,34 +286,48 @@ function createFireworks() {
     }
 }
 
-// Celebrate button functionality
+// Celebrate button functionality using event delegation
 function initCelebrateButton() {
-    celebrateBtn = document.getElementById('celebrate-btn');
+    // Remove any existing celebrate button listeners
+    document.removeEventListener('click', handleCelebrateClick);
     
-    if (celebrateBtn) {
-        celebrateBtn.addEventListener('click', () => {
-            // Trigger the epic explosion sequence
-            explodePostcard();
-            
-            // Play enhanced sound effects
-            playBirthdaySound();
-            
-            // Create reduced confetti after explosion
-            setTimeout(() => {
-                createConfetti();
-            }, 800);
-            
-            // Create fireworks during reinflation
-            setTimeout(() => {
-                createFireworks();
-            }, 1800);
-            
-            // Add pulse animation to button
-            celebrateBtn.style.animation = 'buttonCelebrate 0.6s ease-in-out';
-            setTimeout(() => {
-                celebrateBtn.style.animation = 'buttonPulse 2s ease-in-out infinite';
-            }, 600);
-        });
+    // Add event delegation listener to document
+    document.addEventListener('click', handleCelebrateClick);
+    
+    console.log('Celebrate button event delegation initialized');
+}
+
+// Handle celebrate button clicks via event delegation
+function handleCelebrateClick(e) {
+    // Check if the clicked element is the celebrate button
+    if (e.target && e.target.id === 'celebrate-btn') {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        console.log('Celebrate button clicked!');
+        
+        // Trigger the epic explosion sequence
+        explodePostcard();
+        
+        // Play enhanced sound effects
+        playBirthdaySound();
+        
+        // Create reduced confetti after explosion
+        setTimeout(() => {
+            createConfetti();
+        }, 800);
+        
+        // Create fireworks during reinflation
+        setTimeout(() => {
+            createFireworks();
+        }, 1800);
+        
+        // Add pulse animation to button
+        const celebrateBtn = e.target;
+        celebrateBtn.style.animation = 'buttonCelebrate 0.6s ease-in-out';
+        setTimeout(() => {
+            celebrateBtn.style.animation = 'buttonPulse 2s ease-in-out infinite';
+        }, 600);
     }
 }
 
@@ -420,7 +464,11 @@ if (document.readyState === 'loading') {
 // Also listen for router page changes
 window.addEventListener('pageChanged', (e) => {
     if (e.detail.targetFile === 'wishes.html') {
-        setTimeout(initWishesPage, 100); // Small delay to ensure DOM is updated
+        // Longer delay for router navigation to ensure DOM is fully updated
+        setTimeout(() => {
+            console.log('Router navigation to wishes page detected');
+            initWishesPage();
+        }, 200);
     }
 });
 

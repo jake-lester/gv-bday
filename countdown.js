@@ -6,54 +6,73 @@ function checkBirthdayStatus() {
     const now = new Date().getTime();
     const isPastBirthday = now >= targetDate;
     
-    // Show/hide navigation links and birthday message
-    const wishesNav = document.getElementById('wishes-nav');
-    const birthdayArrived = document.getElementById('birthday-arrived');
-    const bigWishesButton = document.getElementById('big-wishes-button');
+    // Retry logic for finding elements (for router navigation)
+    let attempts = 0;
+    const maxAttempts = 10;
     
-    // Also check for elements that might exist across different pages
-    const wishesNavHome = document.getElementById('wishes-nav-home');
-    const wishesBtnHome = document.getElementById('wishes-btn-home');
+    const updateStatusElements = () => {
+        // Show/hide navigation links and birthday message
+        const wishesNav = document.getElementById('wishes-nav');
+        const birthdayArrived = document.getElementById('birthday-arrived');
+        const bigWishesButton = document.getElementById('big-wishes-button');
+        
+        // Also check for elements that might exist across different pages
+        const wishesNavHome = document.getElementById('wishes-nav-home');
+        const wishesBtnHome = document.getElementById('wishes-btn-home');
+        
+        // Check if we found at least some elements (meaning page is loaded)
+        const hasElements = wishesNav || birthdayArrived || bigWishesButton || wishesNavHome || wishesBtnHome;
+        
+        if (!hasElements && attempts < maxAttempts) {
+            attempts++;
+            console.log(`Status elements not found, retrying... (${attempts}/${maxAttempts})`);
+            setTimeout(updateStatusElements, 50);
+            return;
+        }
+        
+        if (isPastBirthday) {
+            // Show wishes navigation button
+            if (wishesNav) {
+                wishesNav.style.display = 'inline-block';
+            }
+            if (wishesNavHome) {
+                wishesNavHome.style.display = 'block';
+            }
+            // Show birthday arrived message
+            if (birthdayArrived) {
+                birthdayArrived.style.display = 'block';
+            }
+            // Show big wishes button
+            if (bigWishesButton) {
+                bigWishesButton.style.display = 'block';
+            }
+            if (wishesBtnHome) {
+                wishesBtnHome.style.display = 'inline-block';
+            }
+        } else {
+            // Hide elements when countdown is active
+            if (wishesNav) {
+                wishesNav.style.display = 'none';
+            }
+            if (wishesNavHome) {
+                wishesNavHome.style.display = 'none';
+            }
+            if (birthdayArrived) {
+                birthdayArrived.style.display = 'none';
+            }
+            if (bigWishesButton) {
+                bigWishesButton.style.display = 'none';
+            }
+            if (wishesBtnHome) {
+                wishesBtnHome.style.display = 'none';
+            }
+        }
+        
+        console.log(`Birthday status updated: ${isPastBirthday ? 'Past birthday' : 'Before birthday'}`);
+    };
     
-    if (isPastBirthday) {
-        // Show wishes navigation button
-        if (wishesNav) {
-            wishesNav.style.display = 'inline-block';
-        }
-        if (wishesNavHome) {
-            wishesNavHome.style.display = 'block';
-        }
-        // Show birthday arrived message
-        if (birthdayArrived) {
-            birthdayArrived.style.display = 'block';
-        }
-        // Show big wishes button
-        if (bigWishesButton) {
-            bigWishesButton.style.display = 'block';
-        }
-        if (wishesBtnHome) {
-            wishesBtnHome.style.display = 'inline-block';
-        }
-        return true;
-    } else {
-        // Hide elements when countdown is active
-        if (wishesNav) {
-            wishesNav.style.display = 'none';
-        }
-        if (wishesNavHome) {
-            wishesNavHome.style.display = 'none';
-        }
-        if (birthdayArrived) {
-            birthdayArrived.style.display = 'none';
-        }
-        if (bigWishesButton) {
-            bigWishesButton.style.display = 'none';
-        }
-        if (wishesBtnHome) {
-            wishesBtnHome.style.display = 'none';
-        }
-        return false;
-    }
+    updateStatusElements();
+    return isPastBirthday;
 }
 
 // DOM elements - will be initialized when page loads
@@ -750,7 +769,11 @@ if (document.readyState === 'loading') {
 // Also listen for router page changes
 window.addEventListener('pageChanged', (e) => {
     if (e.detail.targetFile === 'countdown.html') {
-        setTimeout(initCountdownPage, 100); // Small delay to ensure DOM is updated
+        // Longer delay for router navigation to ensure DOM is fully updated
+        setTimeout(() => {
+            console.log('Router navigation to countdown page detected');
+            initCountdownPage();
+        }, 200);
     }
 });
 
